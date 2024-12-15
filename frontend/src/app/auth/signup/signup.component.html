@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 m-auto my-4 p-3 shadow formBgColor" *ngIf="!loading">
+      <div>
+        <h1 class="text-center">Sign up</h1>
+        <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+          <!-- Email -->
+          <div class="mb-4 position-relative">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              [ngClass]="{'is-invalid':regForm.controls?.['email']?.invalid && regForm.controls?.['email']?.touched}"
+            />
+            <small
+              *ngIf="regForm.controls?.['email']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Email is required.
+            </small>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4 position-relative">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="{{ hide }}"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              [ngClass]="{'is-invalid':regForm.controls?.['password']?.invalid && regForm.controls?.['password']?.touched}"
+            />
+            <i
+              class="fa fa-{{
+                hide == 'password' ? 'eye-slash' : 'eye'
+              }} position-absolute"
+              style="
+                top: 72%;
+                right: 10px;
+                transform: translateY(-50%);
+                cursor: pointer;
+              "
+              (click)="
+                hide == 'password' ? (hide = 'text') : (hide = 'password')
+              "
+            ></i>
+            <small
+              *ngIf="regForm.controls?.['password']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Password is required.
+            </small>
+          </div>
+
+          <!-- Profile Image -->
+          <div class="d-md-flex justify-content-between">
+            <div class="mb-1">
+              <label for="image" class="form-label">Image</label>&nbsp;&nbsp;
+              <button
+                type="button"
+                class="btnPickImage p-2"
+                (click)="filePicker.click()"
+              >
+                Pick Image
+              </button>
+              <input
+                type="file"
+                class="form-control position-relative"
+                id="image"
+                [ngClass]="regForm.controls?.['image']?.invalid && regForm.controls?.['image']?.touched"
+                #filePicker
+                (change)="onImagePicked($event)"
+              />
+              <small
+                *ngIf="regForm.controls?.['image']?.errors?.['required']"
+                class="invalid-feedback text-danger position-absolute"
+              >
+                Profile Image is required.
+              </small>
+            </div>
+            <div
+              class="image-preview"
+              *ngIf="imagePreview !== '' && imagePreview"
+            >
+              <img [src]="imagePreview" [alt]="regForm.value.title" />
+            </div>
+          </div>
+
+          <div class="d-md-flex justify-content-between">
+            <p>
+              Already have account ? <a routerLink="/auth/signin">Sign in</a>
+            </p>
+
+            <button type="submit" class="btnSubmit p-2">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="loader-container" *ngIf="loading">
+      <span class="loader"></span>
+    </div>
+  </div>
+</div>

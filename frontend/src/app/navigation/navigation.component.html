@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-light navBgColor">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarTogglerDemo01"
+      aria-controls="navbarTogglerDemo01"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand" routerLink="/app-dashboard">Project Board</a>
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+
+      <div class="dropdown dropdown-custom">
+        <a
+          class="dropdown-toggle dropDownBtn"
+          id="dropdownMenuButton1"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          type="button"
+        >
+          Action
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li>
+            <a class="dropdown-item" routerLink="">Your Order</a>
+          </li>
+          <li><a class="dropdown-item" routerLink="">Track Order</a></li>
+          <li>
+            <a class="dropdown-item" routerLink="" (click)="onLogout()"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

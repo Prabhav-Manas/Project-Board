@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 m-auto my-4 p-3 shadow formBgColor" *ngIf="!loading">
+      <div>
+        <h1 class="text-center">Sign in</h1>
+        <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+          <!-- Email -->
+          <div class="mb-4 position-relative">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              formControlName="email"
+              [ngClass]="{'is-invalid':logInForm.controls?.['email']?.invalid && logInForm.controls?.['email']?.touched}"
+            />
+            <small
+              *ngIf="logInForm.controls?.['email']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Email is required.
+            </small>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4 position-relative">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="{{ hide }}"
+              class="form-control"
+              id="password"
+              formControlName="password"
+              [ngClass]="{'is-invalid':logInForm.controls?.['password']?.invalid && logInForm.controls?.['password']?.touched}"
+            />
+            <i
+              class="fa fa-{{
+                hide == 'password' ? 'eye-slash' : 'eye'
+              }} position-absolute"
+              style="
+                top: 72%;
+                right: 10px;
+                transform: translateY(-50%);
+                cursor: pointer;
+              "
+              (click)="
+                hide == 'password' ? (hide = 'text') : (hide = 'password')
+              "
+            ></i>
+            <small
+              *ngIf="logInForm.controls?.['password']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Password is required.
+            </small>
+          </div>
+
+          <div class="d-block">
+            <p>Don't have account ? <a routerLink="/auth/signup">Sign up</a></p>
+            <p><a routerLink="/auth/forgot-password">Forgot Password</a></p>
+          </div>
+
+          <button type="submit" class="btnSubmit p-2">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="loader-container" *ngIf="loading">
+      <span class="loader"></span>
+    </div>
+  </div>
+</div>
