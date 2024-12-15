@@ -210,10 +210,11 @@
               class="btnColse p-2"
               data-bs-dismiss="modal"
               (click)="onModalClose()"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
-            <button type="submit" class="btnSubmit p-2">
+            <button type="submit" class="btnSubmit p-2" data-bs-dismiss="modal">
               {{ isEditMode ? "Update" : "Create" }}
             </button>
           </div>
