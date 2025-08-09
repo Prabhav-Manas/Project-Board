@@ -1,0 +1,37 @@
+<div class="card mt-5 m-auto" style="width: 50rem">
+  <div class="" *ngIf="!loading">
+    <div class="card" *ngIf="selectedProject">
+      <h2 class="card-header">
+        <strong>Project Name:</strong> {{ selectedProject.projectName }}
+      </h2>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Client</th>
+              <th scope="col">Client Type</th>
+              <th scope="col">Project Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ selectedProject.client }}</td>
+              <td>{{ selectedProject.clientType }}</td>
+              <td [ngClass]="getStatusClass(selectedProject.projectStatus)">
+                {{ selectedProject.projectStatus }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <a routerLink="" class="btnGoBack p-2" (click)="goBack()"
+          ><i class="fa fa-hand-o-left" aria-hidden="true"></i> Back</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="loader-container" *ngIf="loading">
+    <span class="loader"></span>
+  </div>
+</div>

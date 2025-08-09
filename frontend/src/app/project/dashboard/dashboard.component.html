@@ -1,0 +1,225 @@
+<div class="container">
+  <div class="row">
+    <div class="mt-3">
+      <div class="d-flex search-add-project">
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearchTermChange()"
+            name="searchTerm"
+          />
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <button
+          type="button"
+          class="btnAddProject"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Add Project
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="">
+      <div class="table-responsive-sm">
+        <table class="table table-striped table-bordered tableColor">
+          <thead class="">
+            <tr class="">
+              <th scope="col" class="text-center tableHeadRowColor">S.No.</th>
+              <th scope="col" class="text-center tableHeadRowColor">
+                Project Name
+              </th>
+              <th scope="col" class="text-center tableHeadRowColor">
+                Client Type
+              </th>
+              <th scope="col" class="text-center tableHeadRowColor">Client</th>
+              <th scope="col" class="text-center tableHeadRowColor">
+                Project Status
+              </th>
+              <th scope="col" class="text-center tableHeadRowColor">View</th>
+              <th scope="col" class="text-center tableHeadRowColor">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="allProjects.length > 0">
+              <tr *ngFor="let project of allProjects; index as i">
+                <td class="text-center tableContentRowColor">
+                  {{ (currentPage - 1) * pageSize + i + 1 }}
+                </td>
+                <td class="text-center tableContentRowColor">
+                  {{ project.projectName }}
+                </td>
+                <td class="text-center tableContentRowColor">
+                  {{ capitalizeFirstLetter(project.clientType) }}
+                </td>
+                <td class="text-center tableContentRowColor">
+                  {{ project.client }}
+                </td>
+                <td
+                  class="text-center"
+                  [ngClass]="getStatusClass(project.projectStatus)"
+                >
+                  {{ capitalizeFirstLetter(project.projectStatus) }}
+                </td>
+                <td class="text-primary text-center tableContentRowColor">
+                  <i
+                    class="fa fa-eye"
+                    aria-hidden="true"
+                    (click)="onViewProject(project)"
+                  ></i>
+                </td>
+                <td class="text-center tableContentRowColor">
+                  <i
+                    class="fa fa-pencil-square-o text-primary"
+                    aria-hidden="true"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="onEditProject(project)"
+                  ></i
+                  >&nbsp;&nbsp;
+                  <i
+                    class="fa fa-trash-o text-danger"
+                    aria-hidden="true"
+                    (click)="onDeleteProject(project)"
+                  ></i>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="allProjects.length === 0">
+              <td colspan="7" class="text-center text-danger">
+                Please add your projects!
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pagination -->
+<mat-paginator
+  [length]="totalProjects"
+  [pageSize]="10"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content modalFormBgColor">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">
+          {{ isEditMode ? "Edit Project" : "New Project" }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="onModalClose()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newProjectForm" (ngSubmit)="onSubmit()">
+          <!-- Project Name -->
+          <div class="mb-4 position-relative">
+            <label for="projectName" class="form-label">Project Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="projectName"
+              formControlName="projectName"
+              [ngClass]="{'is-invalid':newProjectForm.controls?.['projectName']?.invalid && newProjectForm.controls?.['projectName']?.touched}"
+            />
+            <small
+              *ngIf="newProjectForm.controls?.['projectName']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Project Name is required.
+            </small>
+          </div>
+
+          <!-- Client Type -->
+          <div class="mb-4 position-relative">
+            <label for="dropdown" class="form-label">Client Type</label
+            >&nbsp;&nbsp;&nbsp;
+            <select id="dropdown" formControlName="clientType" class="">
+              <option
+                *ngFor="let option of clientTypeDropDownOptions"
+                [value]="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Client -->
+          <div class="mb-4 position-relative">
+            <label for="client" class="form-label">Client</label>
+            <input
+              type="text"
+              class="form-control"
+              id="client"
+              formControlName="client"
+              [ngClass]="{'is-invalid':newProjectForm.controls?.['client']?.invalid && newProjectForm.controls?.['client']?.touched}"
+            />
+            <small
+              *ngIf="newProjectForm.controls?.['client']?.errors?.['required']"
+              class="invalid-feedback text-danger position-absolute"
+            >
+              Client Name is required.
+            </small>
+          </div>
+
+          <!-- Project Status -->
+          <div class="mb-4 position-relative">
+            <label for="dropdown" class="form-label">Project Status</label
+            >&nbsp;&nbsp;&nbsp;
+            <select id="dropdown" formControlName="projectStatus" class="">
+              <option
+                *ngFor="let option of projectStatusDropDownOptions"
+                [value]="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="d-md-flex justify-content-between">
+            <button
+              type="button"
+              class="btnColse p-2"
+              data-bs-dismiss="modal"
+              (click)="onModalClose()"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btnSubmit p-2" data-bs-dismiss="modal">
+              {{ isEditMode ? "Update" : "Create" }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

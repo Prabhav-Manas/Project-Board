@@ -1,0 +1,16 @@
+.navBgColor {
+  background-color: #1f4529;
+}
+.navbar-brand {
+  color: #d3f1df;
+}
+.dropdown-custom {
+  position: relative;
+  margin-right: 100px; /* Adjust spacing */
+}
+.dropDownBtn {
+  text-decoration: none;
+  background-color: #d3f1df;
+  color: #1f4529;
+  padding: 5px;
+}

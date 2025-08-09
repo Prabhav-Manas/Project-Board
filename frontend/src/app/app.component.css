@@ -1,0 +1,23 @@
+/* Ensure the body and html take up the full height */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Use flexbox to make the content area take all available space */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(
+    100vh - 78px
+  ); /* Adjust based on the height of your header or navigation bar */
+  overflow-y: auto; /* Enable vertical scrolling only if content overflows */
+}
+
+/* Push footer to the bottom with slight margin */
+app-footer {
+  margin-top: auto; /* This pushes the footer to the bottom */
+  margin-bottom: 20px; /* Adjust the margin to move the footer slightly lower */
+}
