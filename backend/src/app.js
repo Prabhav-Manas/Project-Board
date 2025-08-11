@@ -1,4 +1,5 @@
 require("dotenv").config();
+const FRONTEND = (process.env.FRONTEND_URL || "http://localhost:4200").replace(/\/+$/, "");
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -13,7 +14,7 @@ const cors = require("cors");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:4200",
+  origin: FRONTEND,
   methods: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
   allowedHeaders: [
     "Content-Type",
@@ -30,12 +31,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // MongoDB connection
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => {
+mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Connected");
-  })
-  .catch((err) => {
+  }).catch((err) => {
     console.log("Failed to Connect", err.message);
   });
 

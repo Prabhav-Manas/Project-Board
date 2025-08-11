@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
+// import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.prod';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, Subject, tap } from 'rxjs';
 
